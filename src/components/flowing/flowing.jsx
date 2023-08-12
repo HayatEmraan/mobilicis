@@ -17,7 +17,7 @@ const FlowingComponent = () => {
           height={100}
         />
       </div>
-      <button className="bg-[#1f1f1fcc] rounded-md px-2">
+      <button className="bg-[#BAB6EB] rounded-md px-2">
         Remove Connection
       </button>
     </div>

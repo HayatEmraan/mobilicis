@@ -54,7 +54,7 @@ const AsideComponent = () => {
               className={
                 pathname === item.path
                   ? "border border-black rounded-lg p-1.5 w-fit px-4"
-                  : ""
+                  : "p-1.5 w-fit px-4"
               }
             >
               {item.name}

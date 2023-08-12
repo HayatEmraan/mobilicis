@@ -1,15 +1,20 @@
+"use client";
 import { Poppins } from "next/font/google";
 import Image from "next/image";
-import React from "react";
-
+import Link from "next/link";
+import React, { useState } from "react";
+import { CiLogout } from "react-icons/ci";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: "500",
 });
 const NavbarComponent = () => {
+  const [isOpen, setOpen] = useState(false);
   return (
     <div className="border-b-[#CECECE] border-b flex justify-end">
-      <div className={`${poppins.className} flex items-center gap-4 my-4 mx-8`}>
+      <div
+        className={`${poppins.className} flex items-center gap-4 my-4 mx-8 relative`}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="26"
@@ -24,7 +29,10 @@ const NavbarComponent = () => {
             fill="#1E2875"
           />
         </svg>
-        <div className="flex items-center gap-4 lg:dashboard">
+        <div
+          onClick={() => setOpen(!isOpen)}
+          className="flex items-center gap-4 lg:dashboard cursor-pointer"
+        >
           <div className="flex items-center gap-2">
             <Image
               alt="avatar"
@@ -52,6 +60,30 @@ const NavbarComponent = () => {
               />
             </svg>
           </div>
+        </div>
+        <div>
+          {isOpen && (
+            <div
+              className={`absolute lg:-bottom-32 z-30 ${
+                isOpen && "top-16 right-0"
+              } lg:right-0 border p-1 shadow-md rounded-md px-2 opacity-100 bg-[#FFFFFF]`}
+            >
+              <div>
+                <div className="mt-2 hover:bg-[#FFE699]">
+                  <Link
+                    href="/settings"
+                    className="border border-[#ffc000] uppercase font-semibold px-8 py-2 rounded-md flex items-center gap-3"
+                  >
+                    Settings
+                  </Link>
+                </div>
+                <div className="uppercase flex mt-4 items-center gap-2">
+                  <CiLogout size={20}></CiLogout>
+                  Log Out
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
