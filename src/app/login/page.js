@@ -1,14 +1,30 @@
 "use client";
+import { LayerContext } from "@/context/AuthContext";
 import Link from "next/link";
-import React from "react";
-
+import React, { useContext } from "react";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 const LoginPage = () => {
+  const { signIn } = useContext(LayerContext);
+  const router = useRouter();
   const handleLogIn = (e) => {
     e.preventDefault();
     const middle = e.target;
     const email = middle.email.value;
     const password = middle.password.value;
-    console.log(email, password);
+    if (email && password) {
+      signIn(email, password)
+        .then((res) => {
+          toast.success("Logged in successfully!");
+          return router.push("/profile");
+        })
+        .catch((err) => {
+          console.log(err.message);
+          if (err.message === "Firebase: Error (auth/user-not-found).") {
+            toast.error("Wrong password / email combination!");
+          }
+        });
+    }
   };
   return (
     <div className="flex justify-center items-center h-screen">

@@ -14,7 +14,7 @@ const outfit = Outfit({
   subsets: ["latin"],
   weight: "500",
 });
-const BannerComponent = () => {
+const BannerComponent = ({ user }) => {
   const [label, setLabel] = useState("");
   const [data, setData] = useState(null);
   return (
@@ -34,23 +34,23 @@ const BannerComponent = () => {
               <Image
                 alt="avatar"
                 style={{ borderRadius: "50%", background: "#FFA78D" }}
-                src="/logo.png"
+                src={`${user?.photoURL ? user?.photoURL : "/logo.png"}`}
                 width={140}
                 height={100}
               />
-              <FileInputExample />
+              <FileInputExample user={user} />
             </div>
             <div className="border p-8 rounded-lg space-y-4">
               <div className="flex justify-between items-center">
                 <div>
                   <h1>Your Name</h1>
-                  <h1>Vishnu Swaroop</h1>
+                  <h1>{user?.displayName ? user?.displayName : "Unknown"}</h1>
                 </div>
                 <div className="bg-[#F0EFFA] rounded-xl px-4">
                   <button
                     onClick={() => {
                       setLabel("Your Name");
-                      setData("Vishnu Swaroop");
+                      setData(`${user?.displayName}`);
                       window.my_modal_2.showModal();
                     }}
                   >
@@ -61,12 +61,13 @@ const BannerComponent = () => {
               <div className="flex justify-between items-center">
                 <div>
                   <h1>Email</h1>
-                  <h1>vishnu@gmail.com</h1>
+                  <h1>{user?.email ? user?.email : "Unknown"}</h1>
                 </div>
                 <div className="bg-[#F0EFFA] rounded-xl px-4">
                   <button
                     onClick={() => {
                       setLabel("Email");
+                      setData(`${user?.email}`);
                       window.my_modal_2.showModal();
                     }}
                   >

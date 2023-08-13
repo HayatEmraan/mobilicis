@@ -1,7 +1,9 @@
-"use client"
+"use client";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+import AuthContext from "@/context/AuthContext";
+import { Toaster } from "react-hot-toast";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -19,7 +21,8 @@ export default function RootLayout({ children }) {
           options={{ showSpinner: false }}
           shallowRouting
         />
-        {children}
+        <Toaster />
+        <AuthContext>{children}</AuthContext>
       </body>
     </html>
   );

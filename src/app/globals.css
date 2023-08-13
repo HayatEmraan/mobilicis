@@ -15,54 +15,18 @@
   gap: 47.778px;
 }
 
-/*From Section Start*/
-.form-signup {
-  @apply w-[390px] md:w-[410px] lg:w-[425px] h-[450px] shadow-[0px_5px_8px_3px_#aaaa] z-10 relative mt-[5%] rounded-[5px];
-  background: white;
+.input-field {
+  @apply w-full rounded bg-gray-200 h-10 border border-gray-400 text-sm px-2 mt-2;
 }
-/*1st title and sub-title start*/
-.first_title {
-  @apply text-[32px] pt-2.5 pb-0 px-2.5;
+
+.select-field {
+  @apply w-1/3 rounded border border-gray-400 text-sm h-10 px-2 mt-2;
 }
-#sub_title {
-  @apply text-[#606770] ml-2.5;
+
+.radio-field {
+  @apply w-1/3 h-10 border border-gray-400 text-sm flex items-center justify-center rounded;
 }
-hr {
-  @apply opacity-[20%] mt-2.5;
+
+.submit-btn {
+  @apply w-2/3 h-10 bg-green-500 text-white font-bold text-xl rounded mt-4;
 }
-/*1st title and sub-title end*/
-/*Input section start*/
-#all {
-  @apply w-[160px] md:w-[180px] h-[35px] border text-[15px] ml-3 mt-2.5 pl-2.5 rounded-[5px] border-solid border-[#aaaa];
-  background: #e6e6e6;
-}
-#all1 {
-  @apply w-[350px] md:w-[390px] h-[35px] border text-[15px] ml-3 mt-2.5 pl-2.5 rounded-[5px] border-solid border-[#aaaa];
-  background: #e6e6e6;
-}
-#mobile-input {
-  @apply w-[390px] h-[35px] text-[15px];
-}
-/*Input section end*/
-/*Date of birth section start*/
-.sub_title_2 {
-  @apply text-xs mt-2.5;
-}
-select {
-  @apply w-[125px] h-[35px] text-[15px] border ml-2.5 mt-2.5 rounded-[5px] border-solid border-[#aaaa];
-  background: none;
-}
-/*Date of birth section end*/
-/*last section start*/
-.sub_title_4 {
-  @apply text-[10px] text-[#606770] ml-2.5;
-}
-.sub_title_4 a {
-  @apply no-underline text-[blue];
-}
-.submit {
-  @apply w-[200px] h-10 text-[white] text-xl font-[bold] ml-[25%] mt-5 rounded-[5px] border-[none] hover:opacity-[60%];
-  background: #0ebd02;
-}
-/*last section end*/
-/*From Section end/*/

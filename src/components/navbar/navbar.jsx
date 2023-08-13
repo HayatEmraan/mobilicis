@@ -1,14 +1,16 @@
 "use client";
+import { LayerContext } from "@/context/AuthContext";
 import { Poppins } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { CiLogout } from "react-icons/ci";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: "500",
 });
 const NavbarComponent = () => {
+  const { user, logOut } = useContext(LayerContext);
   const [isOpen, setOpen] = useState(false);
   return (
     <div className="border-b-[#CECECE] border-b flex justify-end">
@@ -37,13 +39,13 @@ const NavbarComponent = () => {
             <Image
               alt="avatar"
               style={{ borderRadius: "50%", background: "#FFA78D" }}
-              src="/logo.png"
+              src={`${user?.photoURL ? user?.photoURL : "/logo.png"}`}
               width={40}
               height={40}
             />
             <div className="-space-y-2 hidden lg:block">
               <small className="text-[10.5px]">Welcome back,</small>
-              <h1 className="text-[16px]">Vishnu Swaroop</h1>
+              <h1 className="text-[16px]">{user?.displayName}</h1>
             </div>
           </div>
           <div className="hidden lg:block">
@@ -77,10 +79,13 @@ const NavbarComponent = () => {
                     Settings
                   </Link>
                 </div>
-                <div className="uppercase flex mt-4 items-center gap-2">
+                <button
+                  className="uppercase flex mt-4 items-center gap-2"
+                  onClick={logOut}
+                >
                   <CiLogout size={20}></CiLogout>
                   Log Out
-                </div>
+                </button>
               </div>
             </div>
           )}

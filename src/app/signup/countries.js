@@ -9,23 +9,22 @@ const CountriesComponent = () => {
     setCountryCode(event.target.value);
   };
   return (
-    <div className="rounded-lg mt-1">
-      <div
-        className="flex justify-between items-center gap-2 "
-        id="mobile-input"
-      >
+    <div className="rounded-lg">
+      <div className="flex justify-between items-center gap-2">
         <select
-          className="border rounded w-full p-2"
+          className="input-field"
           value={countryCode}
           onChange={handleCountryCodeChange}
           name="country_code"
+          id="all"
         >
           <SelectComponent />
         </select>
         <input
-          type="password"
+          className="input-field"
+          type="tel"
           placeholder="Phone Number"
-          id="all1"
+          id="all"
           name="number"
           required=""
         />

@@ -23,12 +23,11 @@ const AsideComponent = () => {
   return (
     <div className="flex justify-center items-center mt-4">
       <div className="flex flex-col gap-4">
-        <Link
-          href="/dashboard"
+        <h1
           className={`${outfit.className} dashboard flex items-center gap-2 text-2xl`}
         >
           Dashboard
-        </Link>
+        </h1>
         {nav.map((item, index) => (
           <Link
             key={index}

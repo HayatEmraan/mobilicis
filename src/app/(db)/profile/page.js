@@ -1,12 +1,15 @@
-import BannerComponent from '@/components/banner/banner';
-import React from 'react';
+"use client"
+import BannerComponent from "@/components/banner/banner";
+import { LayerContext } from "@/context/AuthContext";
+import { useContext } from "react";
 
 const ProfilePage = () => {
-    return (
-      <>
-        <BannerComponent />
-      </>
-    );
+  const {user} = useContext(LayerContext);
+  return (
+    <>
+      <BannerComponent user={user}/>
+    </>
+  );
 };
 
 export default ProfilePage;
