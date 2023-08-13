@@ -1,12 +1,22 @@
+"use client";
 import { Outfit } from "next/font/google";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
+import FileInputExample from "../upload/upload";
+import PopUpComponent from "../popup/popup";
+import AboutPopUp from "../popup/about";
+import CertificateComponent from "../popup/certification";
+import ExperienceComponent from "../popup/experience";
+import EducationComponent from "../popup/education";
+import PhoneComponent from "../popup/phone";
 
 const outfit = Outfit({
   subsets: ["latin"],
   weight: "500",
 });
 const BannerComponent = () => {
+  const [label, setLabel] = useState("");
+  const [data, setData] = useState(null);
   return (
     <div className="relative">
       {/* banner background */}
@@ -28,7 +38,7 @@ const BannerComponent = () => {
                 width={140}
                 height={100}
               />
-              <h1>Upload Photo</h1>
+              <FileInputExample />
             </div>
             <div className="border p-8 rounded-lg space-y-4">
               <div className="flex justify-between items-center">
@@ -37,7 +47,15 @@ const BannerComponent = () => {
                   <h1>Vishnu Swaroop</h1>
                 </div>
                 <div className="bg-[#F0EFFA] rounded-xl px-4">
-                  <button>Edit</button>
+                  <button
+                    onClick={() => {
+                      setLabel("Your Name");
+                      setData("Vishnu Swaroop");
+                      window.my_modal_2.showModal();
+                    }}
+                  >
+                    Edit
+                  </button>
                 </div>
               </div>
               <div className="flex justify-between items-center">
@@ -46,7 +64,14 @@ const BannerComponent = () => {
                   <h1>vishnu@gmail.com</h1>
                 </div>
                 <div className="bg-[#F0EFFA] rounded-xl px-4">
-                  <button>Edit</button>
+                  <button
+                    onClick={() => {
+                      setLabel("Email");
+                      window.my_modal_2.showModal();
+                    }}
+                  >
+                    Edit
+                  </button>
                 </div>
               </div>
               <div className="flex justify-between items-center">
@@ -55,14 +80,29 @@ const BannerComponent = () => {
                   <h1>+91 49652845732</h1>
                 </div>
                 <div className="bg-[#F0EFFA] rounded-xl px-4">
-                  <button>Edit</button>
+                  <button
+                    onClick={() => {
+                      setLabel("Phone Number");
+                      window.my_modal_1.showModal();
+                    }}
+                  >
+                    Edit
+                  </button>
                 </div>
               </div>
             </div>
             <div className="border p-8 rounded-lg space-y-4">
               <div className="flex justify-between items-center">
                 <h1>About Vishnu</h1>
-                <h1 className="bg-[#F0EFFA] rounded-xl px-4">Edit</h1>
+                <button
+                  onClick={() => {
+                    setLabel("About");
+                    window.my_modal_3.showModal();
+                  }}
+                  className="bg-[#F0EFFA] rounded-xl px-4 "
+                >
+                  Edit
+                </button>
               </div>
               <p>
                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste
@@ -113,7 +153,15 @@ const BannerComponent = () => {
             <div>
               <div className="flex justify-between items-center my-4">
                 <h1>Certifications</h1>
-                <h1 className="bg-[#F0EFFA] rounded-xl px-4">Edit</h1>
+                <h1
+                  onClick={() => {
+                    setLabel("Certifications");
+                    window.my_modal_5.showModal();
+                  }}
+                  className="bg-[#F0EFFA] rounded-xl px-4 cursor-pointer"
+                >
+                  Edit
+                </h1>
               </div>
               <div className="border px-6 rounded-3xl py-2 flex items-center justify-between">
                 <svg
@@ -140,7 +188,15 @@ const BannerComponent = () => {
             <div>
               <div className="flex justify-between items-center my-4">
                 <h1> Experience</h1>
-                <h1 className="bg-[#F0EFFA] rounded-xl px-4">Edit</h1>
+                <h1
+                  onClick={() => {
+                    setLabel("Experience");
+                    window.my_modal_6.showModal();
+                  }}
+                  className="bg-[#F0EFFA] rounded-xl px-4 cursor-pointer"
+                >
+                  Edit
+                </h1>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between items-center border p-2 rounded-xl space-y-4">
@@ -185,7 +241,15 @@ const BannerComponent = () => {
             <div>
               <div className="flex justify-between items-center my-4">
                 <h1>Education</h1>
-                <h1 className="bg-[#F0EFFA] rounded-xl px-4">Edit</h1>
+                <h1
+                  onClick={() => {
+                    setLabel("Education");
+                    window.my_modal_7.showModal();
+                  }}
+                  className="bg-[#F0EFFA] rounded-xl px-4 cursor-pointer"
+                >
+                  Edit
+                </h1>
               </div>
               <div className="border p-4 rounded-xl space-y-4">
                 <h1>IIT HYDERABAD</h1>
@@ -202,6 +266,12 @@ const BannerComponent = () => {
           </div>
         </div>
       </div>
+      {<PopUpComponent label={label} data={data} />}
+      {<PhoneComponent label={label} data={data} />}
+      {<AboutPopUp label={label} data={data} />}
+      {<CertificateComponent label={label} data={data} />}
+      {<ExperienceComponent label={label} data={data} />}
+      {<EducationComponent label={label} data={data} />}
     </div>
   );
 };
