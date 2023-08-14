@@ -1,7 +1,7 @@
 "use client";
 import { Outfit } from "next/font/google";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FileInputExample from "../upload/upload";
 import PopUpComponent from "../popup/popup";
 import AboutPopUp from "../popup/about";
@@ -9,6 +9,8 @@ import CertificateComponent from "../popup/certification";
 import ExperienceComponent from "../popup/experience";
 import EducationComponent from "../popup/education";
 import PhoneComponent from "../popup/phone";
+import EmailComponent from "../popup/email";
+import Cookies from "js-cookie";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -17,13 +19,30 @@ const outfit = Outfit({
 const BannerComponent = ({ user }) => {
   const [label, setLabel] = useState("");
   const [data, setData] = useState(null);
+  const [userInfo, setUserInfo] = useState({});
+  const [isUpdate, setUpdate] = useState(false);
+  useEffect(() => {
+    fetch("http://localhost:5000/api/v2/user/info", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${Cookies.get("ast")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUserInfo(data.user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [isUpdate]);
+  console.log(userInfo);
   return (
-    <div className="relative">
+    <div className={`${outfit.className} relative`}>
       {/* banner background */}
       <div className="bg-[#1E2875] lg:w-[calc(100%-2rem)] w-[calc(100%-0.5rem)] transition-width duration-300 ease-in-out mx-auto h-[219px] flex-shrink-0 rounded-lg mt-6">
-        <h2 className={`${outfit.className} text-white text-md font-bold p-4`}>
-          MY PROFILE
-        </h2>
+        <h2 className={`text-white text-md font-bold p-4`}>MY PROFILE</h2>
       </div>
       {/* about */}
       <div className="lg:w-[calc(100%-9rem)] xl:w-[calc(100%-12rem)] transition-width duration-300 ease-in-out 2xl:w-[calc(100%-14rem)] md:w-[calc(100%-5rem)] w-[calc(100%-3.5rem)] mx-auto bg-white shadow-md rounded-lg p-6 absolute left-0 right-0 z-10 top-24">
@@ -43,8 +62,10 @@ const BannerComponent = ({ user }) => {
             <div className="border p-8 rounded-lg space-y-4">
               <div className="flex justify-between items-center">
                 <div>
-                  <h1>Your Name</h1>
-                  <h1>{user?.displayName ? user?.displayName : "Unknown"}</h1>
+                  <h1 className="text-[#1f1f1fb3]">Your Name</h1>
+                  <h1 className="text-[#222222e6]">
+                    {user?.displayName ? user?.displayName : "Unknown"}
+                  </h1>
                 </div>
                 <div className="bg-[#F0EFFA] rounded-xl px-4">
                   <button
@@ -60,15 +81,17 @@ const BannerComponent = ({ user }) => {
               </div>
               <div className="flex justify-between items-center">
                 <div>
-                  <h1>Email</h1>
-                  <h1>{user?.email ? user?.email : "Unknown"}</h1>
+                  <h1 className="text-[#1f1f1fb3]">Email</h1>
+                  <h1 className="text-[#222222e6]">
+                    {user?.email ? user?.email : "Unknown"}
+                  </h1>
                 </div>
                 <div className="bg-[#F0EFFA] rounded-xl px-4">
                   <button
                     onClick={() => {
                       setLabel("Email");
                       setData(`${user?.email}`);
-                      window.my_modal_2.showModal();
+                      window.my_modal_10.showModal();
                     }}
                   >
                     Edit
@@ -77,8 +100,10 @@ const BannerComponent = ({ user }) => {
               </div>
               <div className="flex justify-between items-center">
                 <div>
-                  <h1>Phone Number</h1>
-                  <h1>+91 49652845732</h1>
+                  <h1 className="text-[#1f1f1fb3]">Phone Number</h1>
+                  <h1 className="text-[#222222e6]">
+                    {userInfo?.code} {userInfo?.number}
+                  </h1>
                 </div>
                 <div className="bg-[#F0EFFA] rounded-xl px-4">
                   <button
@@ -94,7 +119,9 @@ const BannerComponent = ({ user }) => {
             </div>
             <div className="border p-8 rounded-lg space-y-4">
               <div className="flex justify-between items-center">
-                <h1>About Vishnu</h1>
+                <h1 className="text-[#222222e6] text-[18px] font-medium">
+                  About {user?.displayName?.split(" ")[0]}
+                </h1>
                 <button
                   onClick={() => {
                     setLabel("About");
@@ -102,24 +129,23 @@ const BannerComponent = ({ user }) => {
                   }}
                   className="bg-[#F0EFFA] rounded-xl px-4 "
                 >
-                  Edit
+                  {userInfo?.about ? "Edit" : "Add"}
                 </button>
               </div>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste
-                quis facilis deserunt perferendis qui debitis aliquam voluptas
-                omnis, quaerat earum porro aspernatur. Accusamus repellendus ad
-                libero architecto dolores iste nulla.
-              </p>
+              <p>{userInfo?.about}</p>
             </div>
             <div className="border p-8 rounded-lg space-y-4">
               <div className="flex justify-between items-center">
-                <h1>Skills</h1>
+                <h1 className="text-[#222222e6] text-[18px] font-medium">
+                  Skills
+                </h1>
                 <h1 className="bg-[#F0EFFA] rounded-xl px-4">Edit</h1>
               </div>
-              <p>Next JS</p>
-              <p>Typescript</p>
-              <p>Mongodb</p>
+              <div className="grid grid-cols-3">
+                <p>Next JS</p>
+                <p>Typescript</p>
+                <p>Mongodb</p>
+              </div>
             </div>
           </div>
           {/* career information */}
@@ -127,15 +153,17 @@ const BannerComponent = ({ user }) => {
             {/* professional details */}
             <div className="flex items-center justify-between border p-4 rounded-2xl space-y-4">
               <div>
-                <h1>Professional Details</h1>
+                <h1 className="text-[#222222e6] text-[18px] font-medium">
+                  Professional Details
+                </h1>
                 <p>
                   This are the professional details shown to users in the app.
                 </p>
               </div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="49"
-                height="49"
+                width="70"
+                height="70"
                 viewBox="0 0 49 49"
                 fill="none"
               >
@@ -153,7 +181,9 @@ const BannerComponent = ({ user }) => {
             {/* certifications */}
             <div>
               <div className="flex justify-between items-center my-4">
-                <h1>Certifications</h1>
+                <h1 className="text-[#222222e6] text-[18px] font-medium">
+                  Certifications
+                </h1>
                 <h1
                   onClick={() => {
                     setLabel("Certifications");
@@ -161,34 +191,39 @@ const BannerComponent = ({ user }) => {
                   }}
                   className="bg-[#F0EFFA] rounded-xl px-4 cursor-pointer"
                 >
-                  Edit
+                  {userInfo?.certification ? "Edit" : "Add"}
                 </h1>
               </div>
-              <div className="border px-6 rounded-3xl py-2 flex items-center justify-between">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="39"
-                  height="39"
-                  viewBox="0 0 23 24"
-                  fill="none"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M13.619 0.543534C12.2981 -0.181177 10.7019 -0.181178 9.38097 0.543533L2.30732 4.42453C0.885008 5.20489 0 6.70473 0 8.33479V15.6652C0 17.2953 0.885006 18.7951 2.30732 19.5755L9.38097 23.4565C10.7019 24.1812 12.2981 24.1812 13.619 23.4565L20.6927 19.5755C22.115 18.7951 23 17.2953 23 15.6652V8.33479C23 6.70473 22.115 5.20489 20.6927 4.42453L13.619 0.543534ZM11.5003 7.54622C11.0812 7.54622 10.8009 8.05223 10.2402 9.06425L10.0951 9.32607C9.93582 9.61365 9.85616 9.75744 9.73195 9.85231C9.60774 9.94719 9.45305 9.98241 9.14366 10.0528L8.86199 10.117C7.77325 10.3648 7.22888 10.4888 7.09937 10.9078C6.96985 11.3269 7.34097 11.7636 8.0832 12.6369L8.27523 12.8628C8.48615 13.111 8.5916 13.2351 8.63905 13.3886C8.68649 13.5421 8.67055 13.7077 8.63866 14.0388L8.60963 14.3402C8.49741 15.5054 8.4413 16.088 8.78038 16.347C9.11945 16.606 9.62914 16.3699 10.6485 15.8976L10.9123 15.7754C11.2019 15.6412 11.3468 15.5741 11.5003 15.5741C11.6538 15.5741 11.7987 15.6412 12.0883 15.7754L12.3521 15.8976C13.3715 16.3699 13.8812 16.606 14.2202 16.347C14.5593 16.088 14.5032 15.5054 14.391 14.3402L14.3619 14.0388C14.3301 13.7077 14.3141 13.5421 14.3616 13.3886C14.409 13.2351 14.5145 13.111 14.7254 12.8628L14.9174 12.6369C15.6596 11.7636 16.0308 11.3269 15.9012 10.9078C15.7717 10.4888 15.2274 10.3648 14.1386 10.117L13.8569 10.0528C13.5476 9.98241 13.3929 9.94719 13.2687 9.85231C13.1444 9.75744 13.0648 9.61365 12.9055 9.32606L12.7604 9.06425C12.1997 8.05223 11.9194 7.54622 11.5003 7.54622Z"
-                    fill="#FFCE10"
-                  />
-                </svg>
-                <div className="flex flex-col -space-y-1">
-                  <h1>Python</h1>
-                  <h1>Coding Ninjas</h1>
+              {userInfo?.certification && (
+                <div className="border px-6 rounded-3xl py-2 flex items-center justify-between">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="39"
+                    height="39"
+                    viewBox="0 0 23 24"
+                    fill="none"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M13.619 0.543534C12.2981 -0.181177 10.7019 -0.181178 9.38097 0.543533L2.30732 4.42453C0.885008 5.20489 0 6.70473 0 8.33479V15.6652C0 17.2953 0.885006 18.7951 2.30732 19.5755L9.38097 23.4565C10.7019 24.1812 12.2981 24.1812 13.619 23.4565L20.6927 19.5755C22.115 18.7951 23 17.2953 23 15.6652V8.33479C23 6.70473 22.115 5.20489 20.6927 4.42453L13.619 0.543534ZM11.5003 7.54622C11.0812 7.54622 10.8009 8.05223 10.2402 9.06425L10.0951 9.32607C9.93582 9.61365 9.85616 9.75744 9.73195 9.85231C9.60774 9.94719 9.45305 9.98241 9.14366 10.0528L8.86199 10.117C7.77325 10.3648 7.22888 10.4888 7.09937 10.9078C6.96985 11.3269 7.34097 11.7636 8.0832 12.6369L8.27523 12.8628C8.48615 13.111 8.5916 13.2351 8.63905 13.3886C8.68649 13.5421 8.67055 13.7077 8.63866 14.0388L8.60963 14.3402C8.49741 15.5054 8.4413 16.088 8.78038 16.347C9.11945 16.606 9.62914 16.3699 10.6485 15.8976L10.9123 15.7754C11.2019 15.6412 11.3468 15.5741 11.5003 15.5741C11.6538 15.5741 11.7987 15.6412 12.0883 15.7754L12.3521 15.8976C13.3715 16.3699 13.8812 16.606 14.2202 16.347C14.5593 16.088 14.5032 15.5054 14.391 14.3402L14.3619 14.0388C14.3301 13.7077 14.3141 13.5421 14.3616 13.3886C14.409 13.2351 14.5145 13.111 14.7254 12.8628L14.9174 12.6369C15.6596 11.7636 16.0308 11.3269 15.9012 10.9078C15.7717 10.4888 15.2274 10.3648 14.1386 10.117L13.8569 10.0528C13.5476 9.98241 13.3929 9.94719 13.2687 9.85231C13.1444 9.75744 13.0648 9.61365 12.9055 9.32606L12.7604 9.06425C12.1997 8.05223 11.9194 7.54622 11.5003 7.54622Z"
+                      fill="#FFCE10"
+                    />
+                  </svg>
+                  <div className="flex flex-col -space-y-1">
+                    <h1>{userInfo?.certification?.course}</h1>
+                    <h1>{userInfo?.certification?.institute}</h1>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
             {/* experience */}
             <div>
               <div className="flex justify-between items-center my-4">
-                <h1> Experience</h1>
+                <h1 className="text-[#222222e6] text-[18px] font-medium">
+                  {" "}
+                  Experience
+                </h1>
                 <h1
                   onClick={() => {
                     setLabel("Experience");
@@ -196,52 +231,47 @@ const BannerComponent = ({ user }) => {
                   }}
                   className="bg-[#F0EFFA] rounded-xl px-4 cursor-pointer"
                 >
-                  Edit
+                  {userInfo?.experience ? "Edit" : "Add"}
                 </h1>
               </div>
-              <div className="space-y-2">
-                <div className="flex justify-between items-center border p-2 rounded-xl space-y-4">
-                  <div>
-                    <div className="flex gap-4">
-                      <h1>7 Years (2014-2021)</h1>
-                      <h1>Full-time</h1>
+              {userInfo?.experience && (
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center border p-2 rounded-xl space-y-4">
+                    <div>
+                      <div className="flex gap-4">
+                        <h1>
+                          {userInfo?.experience?.start -
+                            userInfo?.experience?.end}{" "}
+                          Years ({userInfo?.experience?.start}-
+                          {userInfo?.experience?.end})
+                        </h1>
+                        <h1>{userInfo?.experience?.type}</h1>
+                      </div>
+                      <div className="flex gap-4">
+                        <h1>{userInfo?.experience?.company}</h1>
+                        <h1> -- {userInfo?.experience?.position}</h1>
+                      </div>
                     </div>
-                    <div className="flex gap-4">
-                      <h1>Google</h1>
-                      <h1> -- Software Engineer</h1>
-                    </div>
+                    <Image
+                      src={
+                        userInfo?.experience?.logo
+                          ? userInfo?.experience?.logo
+                          : "/company.png"
+                      }
+                      alt="google"
+                      width={70}
+                      height={50}
+                    />
                   </div>
-                  <Image
-                    src="/company.png"
-                    alt="google"
-                    width={70}
-                    height={50}
-                  />
                 </div>
-                <div className="flex justify-between items-center border p-2 rounded-xl space-y-4">
-                  <div>
-                    <div className="flex gap-4">
-                      <h1>7 Years (2014-2021)</h1>
-                      <h1>Full-time</h1>
-                    </div>
-                    <div className="flex gap-4">
-                      <h1>Google</h1>
-                      <h1> -- Software Engineer</h1>
-                    </div>
-                  </div>
-                  <Image
-                    src="/company.png"
-                    alt="google"
-                    width={70}
-                    height={50}
-                  />
-                </div>
-              </div>
+              )}
             </div>
             {/* education */}
             <div>
               <div className="flex justify-between items-center my-4">
-                <h1>Education</h1>
+                <h1 className="text-[#222222e6] font-medium text-[18px]">
+                  Education
+                </h1>
                 <h1
                   onClick={() => {
                     setLabel("Education");
@@ -249,30 +279,81 @@ const BannerComponent = ({ user }) => {
                   }}
                   className="bg-[#F0EFFA] rounded-xl px-4 cursor-pointer"
                 >
-                  Edit
+                  {userInfo?.education ? "Edit" : "Add"}
                 </h1>
               </div>
-              <div className="border p-4 rounded-xl space-y-4">
-                <h1>IIT HYDERABAD</h1>
-                <div className="flex justify-between items-center">
-                  <h1>(2022-2026)</h1>
-                  <h1>B.Tech</h1>
+              {userInfo?.education && (
+                <div className="border p-4 rounded-xl space-y-4">
+                  <h1>{userInfo?.education?.institute}</h1>
+                  <div className="flex justify-between items-center">
+                    <h1>
+                      ({userInfo?.education?.start}-{userInfo?.education?.end})
+                    </h1>
+                    <h1>{userInfo?.education?.degree}</h1>
+                  </div>
+                  <p>{userInfo?.education?.about}</p>
                 </div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Praesentium sed maxime nemo voluptatum adipisci delectus?
-                </p>
-              </div>
+              )}
             </div>
           </div>
         </div>
       </div>
-      {<PopUpComponent label={label} data={data} />}
-      {<PhoneComponent label={label} data={data} />}
-      {<AboutPopUp label={label} data={data} />}
-      {<CertificateComponent label={label} data={data} />}
-      {<ExperienceComponent label={label} data={data} />}
-      {<EducationComponent label={label} data={data} />}
+      {
+        <PopUpComponent
+          label={label}
+          data={data}
+          isUpdate={isUpdate}
+          setUpdate={setUpdate}
+        />
+      }
+      {
+        <PhoneComponent
+          label={label}
+          data={data}
+          isUpdate={isUpdate}
+          setUpdate={setUpdate}
+        />
+      }
+      {
+        <AboutPopUp
+          label={label}
+          data={data}
+          isUpdate={isUpdate}
+          setUpdate={setUpdate}
+        />
+      }
+      {
+        <CertificateComponent
+          label={label}
+          data={data}
+          isUpdate={isUpdate}
+          setUpdate={setUpdate}
+        />
+      }
+      {
+        <ExperienceComponent
+          label={label}
+          data={data}
+          isUpdate={isUpdate}
+          setUpdate={setUpdate}
+        />
+      }
+      {
+        <EducationComponent
+          label={label}
+          data={data}
+          isUpdate={isUpdate}
+          setUpdate={setUpdate}
+        />
+      }
+      {
+        <EmailComponent
+          label={label}
+          data={data}
+          isUpdate={isUpdate}
+          setUpdate={setUpdate}
+        />
+      }
     </div>
   );
 };

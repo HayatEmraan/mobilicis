@@ -23,7 +23,10 @@ const CountriesComponent = () => {
         <input
           className="input-field"
           type="tel"
-          placeholder="Phone Number"
+          placeholder="123-456-7890"
+          pattern="[0-9]*"
+          min={8}
+          max={12}
           id="all"
           name="number"
           required=""

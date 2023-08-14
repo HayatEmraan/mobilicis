@@ -3,8 +3,11 @@ import { LayerContext } from "@/context/AuthContext";
 import { Poppins } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CiLogout } from "react-icons/ci";
+import AsideComponent from "../aside/aside";
+import { AiOutlineClose } from "react-icons/ai";
+import { usePathname } from "next/navigation";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: "500",
@@ -12,8 +15,14 @@ const poppins = Poppins({
 const NavbarComponent = () => {
   const { user, logOut } = useContext(LayerContext);
   const [isOpen, setOpen] = useState(false);
+  const [isNavbar, setNavbar] = useState(false);
+  const pathname = usePathname();
+  useEffect(() => {
+    setNavbar(false);
+    setOpen(false);
+  }, [pathname]);
   return (
-    <div className="border-b-[#CECECE] border-b flex justify-end">
+    <div className="border-b-[#CECECE] border-b flex lg:justify-end justify-between flex-row-reverse lg:flex-row">
       <div
         className={`${poppins.className} flex items-center gap-4 my-4 mx-8 relative`}
       >
@@ -91,6 +100,47 @@ const NavbarComponent = () => {
           )}
         </div>
       </div>
+      <div className="lg:hidden flex items-center gap-3 mx-8">
+        <button onClick={() => setNavbar(!isNavbar)}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="49"
+            height="49"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M16 8L5.6 8"
+              stroke="#222222"
+              stroke-opacity="0.9"
+              stroke-width="1.2"
+              stroke-linecap="round"
+            />
+            <path
+              d="M18.4 12L5.59999 12"
+              stroke="#FFCB00"
+              stroke-width="1.2"
+              stroke-linecap="round"
+            />
+            <path
+              d="M13.6 16H5.60001"
+              stroke="#222222"
+              stroke-opacity="0.9"
+              stroke-width="1.2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+        <Image src="/company.png" alt="logo" width={70} height={70} />
+      </div>
+      {isNavbar && (
+        <div className="lg:hidden absolute min-h-screen bg-white z-50 left-0 w-1/2 transition-width duration-300 ease-in-out">
+          <div className="absolute -right-8 top-3">
+            <AiOutlineClose onClick={() => setNavbar(!isNavbar)} size={40} />
+          </div>
+          <AsideComponent />
+        </div>
+      )}
     </div>
   );
 };

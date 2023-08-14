@@ -1,9 +1,37 @@
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 import React from "react";
+import { toast } from "react-hot-toast";
 
-const CertificateComponent = ({ label, data }) => {
+const CertificateComponent = ({ label, data, isUpdate, setUpdate }) => {
+  const router = useRouter();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const institute = e.target.institute_name.value;
+    const course = e.target.course_name.value;
+    fetch("http://localhost:5000/api/v2/user/certification", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${Cookies.get("ast")}`,
+      },
+      body: JSON.stringify({
+        institute,
+        course,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUpdate(!isUpdate);
+        toast.success("Certificate updated successfully!");
+        my_modal_5.close();
+        router.refresh();
+      })
+      .catch(() => toast.error("Something went wrong!"));
+  };
   return (
     <dialog id="my_modal_5" className="modal">
-      <form method="dialog" className="modal-box">
+      <form method="dialog" className="modal-box" onSubmit={handleSubmit}>
         <p className="font-semibold text-xl">[{label}]</p>
         <hr />
         <div>

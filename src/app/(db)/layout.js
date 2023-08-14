@@ -6,7 +6,7 @@ const DbLayout = ({ children }) => {
     return (
       <div className="lg:grid grid-cols-12">
         <div
-          className="lg:col-span-3 2xl:col-span-2 xl:col-span-3 min-h-screen relative hidden lg:block transition-width duration-300 ease-in-out"
+          className="lg:col-span-3 2xl:col-span-2 xl:col-span-3 min-h-screen fixed lg:w-[300px] hidden lg:block transition-width duration-300 ease-in-out"
           style={{
             boxShadow:
               "0px 8.88888931274414px 53.33333206176758px 0px rgba(226, 236, 249, 0.50)",
@@ -14,7 +14,7 @@ const DbLayout = ({ children }) => {
         >
           <AsideComponent />
         </div>
-        <div className="lg:col-span-9 xl:col-span-9">
+        <div className="lg:col-span-9 xl:col-span-9 lg:ml-[300px] w-full">
           <NavbarComponent />
           {children}
         </div>

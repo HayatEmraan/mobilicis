@@ -3,8 +3,7 @@ import React, { useState } from "react";
 import CodeSelect from "./codeselect";
 
 const PhoneLibs = () => {
-  const [countryCode, setCountryCode] = useState("+880");
-
+  const [countryCode, setCountryCode] = useState("+91");
   const handleCountryCodeChange = (event) => {
     setCountryCode(event.target.value);
   };
@@ -14,6 +13,7 @@ const PhoneLibs = () => {
         <select
           className="border rounded w-full p-2"
           value={countryCode}
+          disabled
           onChange={handleCountryCodeChange}
           name="country_code"
         >
@@ -22,7 +22,10 @@ const PhoneLibs = () => {
         <input
           type="tel"
           className="w-full border py-2 rounded-md px-2 focus:border-none focus:outline focus:outline-orange-400"
-          placeholder="Phone Number"
+          placeholder="123-456-7890"
+          pattern="[0-9]*"
+          min={8}
+          max={12}
           id="all1"
           name="number"
           required=""

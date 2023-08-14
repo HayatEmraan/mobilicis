@@ -23,16 +23,39 @@ const SignUpPage = () => {
       sur_name &&
       email &&
       password &&
-      number.length === 8 &&
+      number.length >= 8 &&
       code
     ) {
       createUser(email, password)
         .then((res) => {
           updateProfile(res.user, { displayName: `${first_name} ${sur_name}` })
             .then(() => {
-              toast.success("Account created successfully!.");
-              logOut();
-              return router.push("/login");
+              fetch("http://localhost:5000/api/v2/users", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  first_name,
+                  sur_name,
+                  email,
+                  number,
+                  code,
+                }),
+              })
+                .then((res) => res.json())
+                .then((data) => {
+                  console.log(data);
+                  toast.success("Account created successfully!.");
+                  logOut();
+                  return router.push("/login");
+                })
+                .catch(() => {
+                  toast.error("Something went wrong!");
+                });
+              // toast.success("Account created successfully!.");
+              // logOut();
+              // return router.push("/login");
             })
             .catch(() => {
               toast.error("Something went wrong!");

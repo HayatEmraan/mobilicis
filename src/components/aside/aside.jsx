@@ -1,8 +1,9 @@
 "use client";
 import { Outfit } from "next/font/google";
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import { usePathname } from "next/navigation";
+import { LayerContext } from "@/context/AuthContext";
 const outfit = Outfit({
   subsets: ["latin"],
   weight: "500",
@@ -19,6 +20,7 @@ const nav = [
   },
 ];
 const AsideComponent = () => {
+  const { logOut } = useContext(LayerContext);
   const pathname = usePathname();
   return (
     <div className="flex justify-center items-center mt-4">
@@ -61,6 +63,7 @@ const AsideComponent = () => {
           </Link>
         ))}
         <button
+          onClick={logOut}
           className={`${outfit.className} absolute bottom-8 left-0 right-0`}
         >
           Log Out

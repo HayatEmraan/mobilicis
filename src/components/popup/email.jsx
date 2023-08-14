@@ -1,16 +1,16 @@
 import { LayerContext } from "@/context/AuthContext";
-import { updateProfile } from "firebase/auth";
+import { updateEmail } from "firebase/auth";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
 import { toast } from "react-hot-toast";
 
-const PopUpComponent = ({ label, data, setLabel}) => {
-  const { user } = useContext(LayerContext);
+const EmailComponent = ({ label, data, setLabel, isUpdate, setUpdate }) => {
   const router = useRouter();
+  const { user } = useContext(LayerContext);
   const handleSubmit = (e) => {
     e.preventDefault();
-    const first_name = e.target.name.value;
+    const email = e.target.email.value;
     fetch("http://localhost:5000/api/v2/user/profile", {
       method: "PATCH",
       headers: {
@@ -18,15 +18,17 @@ const PopUpComponent = ({ label, data, setLabel}) => {
         authorization: `Bearer ${Cookies.get("ast")}`,
       },
       body: JSON.stringify({
-        first_name,
+        email,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
-        updateProfile(user, { displayName: `${first_name}` })
+        console.log(data);
+        updateEmail(user, email)
           .then(() => {
-            toast.success("Name updated successfully!");
-            my_modal_2.close();
+            setUpdate(!isUpdate);
+            toast.success("Email updated successfully!");
+            my_modal_10.close();
             router.refresh();
           })
           .catch(() => {
@@ -36,17 +38,17 @@ const PopUpComponent = ({ label, data, setLabel}) => {
       .catch(() => toast.error("Something went wrong!"));
   };
   return (
-    <dialog id="my_modal_2" className="modal">
+    <dialog id="my_modal_10" className="modal">
       <form method="dialog" className="modal-box" onSubmit={handleSubmit}>
         <p className="font-semibold text-xl">[{label}]</p>
         <hr />
         <div>
           <input
             type="text"
-            placeholder="Name"
+            placeholder="Email"
             className="w-full border py-2 rounded-md px-2 focus:border-none focus:outline focus:outline-orange-400"
             required=""
-            name="name"
+            name="email"
             defaultValue={data}
           />
         </div>
@@ -61,4 +63,4 @@ const PopUpComponent = ({ label, data, setLabel}) => {
   );
 };
 
-export default PopUpComponent;
+export default EmailComponent;

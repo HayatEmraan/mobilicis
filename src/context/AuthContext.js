@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { app } from "@/fb/fb.config";
 import React, { createContext, useEffect, useState } from "react";
 import {
@@ -32,6 +33,28 @@ const AuthContext = ({ children }) => {
     const unSubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
+        if (user) {
+          fetch("http://localhost:5000/api/v2/jwt", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: user.email,
+            }),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              const expiration = new Date();
+              expiration.setTime(expiration.getTime() + 6 * 60 * 60 * 1000); // 6 hours from now
+              Cookies.set("ast", data.token, {
+                expires: expiration,
+                secure: true,
+                sameSite: "strict",
+              });
+              console.log(data);
+            });
+        }
       } else {
         setUser(null);
       }
