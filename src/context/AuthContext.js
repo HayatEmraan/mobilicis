@@ -46,7 +46,7 @@ const AuthContext = ({ children }) => {
         //   }
         // }, 500);
       } else {
-        setUser(null);
+        // setUser(null);
       }
       setLoading(false);
     });
