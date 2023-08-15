@@ -38,6 +38,7 @@ const AuthContext = ({ children }) => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
+        console.log(currentUser, "authcontext");
         // setTimeout(() => {
         //   const getCookies = Cookies.get("ast");
         //   if (!getCookies) {
