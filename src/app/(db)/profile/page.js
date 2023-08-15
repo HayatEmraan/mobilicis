@@ -4,7 +4,8 @@ import { LayerContext } from "@/context/AuthContext";
 import { useContext } from "react";
 
 const ProfilePage = () => {
-  const {user} = useContext(LayerContext);
+  const { user } = useContext(LayerContext);
+  console.log("profile", user);
   return (
     <>
       <BannerComponent user={user}/>

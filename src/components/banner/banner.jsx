@@ -21,6 +21,7 @@ const BannerComponent = ({ user }) => {
   const [data, setData] = useState(null);
   const [userInfo, setUserInfo] = useState({});
   const [isUpdate, setUpdate] = useState(false);
+  console.log(user);
   useEffect(() => {
     fetch("https://oruphones-lilac.vercel.app/api/v2/user/info", {
       method: "GET",
@@ -37,7 +38,6 @@ const BannerComponent = ({ user }) => {
         console.log(err);
       });
   }, [isUpdate]);
-  console.log(userInfo);
   return (
     <div className={`${outfit.className} relative`}>
       {/* banner background */}
