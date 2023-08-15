@@ -1,9 +1,8 @@
-"use client";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import AuthContext from "@/context/AuthContext";
 import { Toaster } from "react-hot-toast";
+import NProgressComponent from "@/components/nprocess/nprogress";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -15,12 +14,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ProgressBar
-          height="4px"
-          color="#401c2c"
-          options={{ showSpinner: false }}
-          shallowRouting
-        />
+        <NProgressComponent />
         <Toaster />
         <AuthContext>{children}</AuthContext>
       </body>

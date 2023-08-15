@@ -1,3 +1,4 @@
+"use client"
 import Cookies from "js-cookie";
 import { app } from "@/fb/fb.config";
 import React, { createContext, useEffect, useState } from "react";
