@@ -30,7 +30,7 @@ const SignUpPage = () => {
         .then((res) => {
           updateProfile(res.user, { displayName: `${first_name} ${sur_name}` })
             .then(() => {
-              fetch("http://localhost:5000/api/v2/users", {
+              fetch("https://oruphones-lilac.vercel.app/api/v2/users", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",

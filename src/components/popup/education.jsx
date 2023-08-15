@@ -48,7 +48,7 @@ const EducationComponent = ({ label, data, isUpdate, setUpdate }) => {
     const start = middle.start.value;
     const end = middle.end.value;
     const about = middle.about.value;
-    fetch("http://localhost:5000/api/v2/user/education", {
+    fetch("https://oruphones-lilac.vercel.app/api/v2/user/education", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

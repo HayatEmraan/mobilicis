@@ -22,7 +22,7 @@ const BannerComponent = ({ user }) => {
   const [userInfo, setUserInfo] = useState({});
   const [isUpdate, setUpdate] = useState(false);
   useEffect(() => {
-    fetch("http://localhost:5000/api/v2/user/info", {
+    fetch("https://oruphones-lilac.vercel.app/api/v2/user/info", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

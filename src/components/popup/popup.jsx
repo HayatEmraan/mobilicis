@@ -5,13 +5,13 @@ import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
 import { toast } from "react-hot-toast";
 
-const PopUpComponent = ({ label, data, setLabel}) => {
+const PopUpComponent = ({ label, data, setLabel }) => {
   const { user } = useContext(LayerContext);
   const router = useRouter();
   const handleSubmit = (e) => {
     e.preventDefault();
     const first_name = e.target.name.value;
-    fetch("http://localhost:5000/api/v2/user/profile", {
+    fetch("https://oruphones-lilac.vercel.app/api/v2/user/profile", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

@@ -3,6 +3,7 @@ import { updateProfile } from "firebase/auth";
 import React from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 const FileInputExample = ({ user }) => {
   const router = useRouter();
   const handleFileChange = (event) => {
@@ -20,8 +21,24 @@ const FileInputExample = ({ user }) => {
           photoURL: data.secure_url,
         })
           .then(() => {
-            toast.success("Photo uploaded successfully!");
-            router.refresh();
+            fetch("https://oruphones-lilac.vercel.app/api/v2/user/image", {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${Cookies.get("ast")}`,
+              },
+              body: JSON.stringify({
+                image: data.secure_url,
+              }),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                toast.success("Photo uploaded successfully!");
+                router.refresh();
+              })
+              .catch(() => {
+                toast.error("Something went wrong!");
+              });
           })
           .catch(() => {
             toast.error("Something went wrong!");

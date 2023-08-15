@@ -11,7 +11,7 @@ const EmailComponent = ({ label, data, setLabel, isUpdate, setUpdate }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
-    fetch("http://localhost:5000/api/v2/user/profile", {
+    fetch("https://oruphones-lilac.vercel.app/api/v2/user/profile", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

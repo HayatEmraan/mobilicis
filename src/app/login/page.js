@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useContext } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 const LoginPage = () => {
   const { signIn } = useContext(LayerContext);
   const router = useRouter();
@@ -15,6 +16,25 @@ const LoginPage = () => {
     if (email && password) {
       signIn(email, password)
         .then((res) => {
+          if (res) {
+            fetch("https://oruphones-lilac.vercel.app/api/v2/jwt", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${email}`,
+              },
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                const expiration = new Date();
+                expiration.setTime(expiration.getTime() + 6 * 60 * 60 * 1000); // 6 hours from now
+                Cookies.set("ast", data.token, {
+                  expires: expiration,
+                  secure: true,
+                  sameSite: "strict",
+                });
+              });
+          }
           toast.success("Logged in successfully!");
           return router.push("/profile");
         })

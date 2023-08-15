@@ -8,9 +8,11 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
+import { useRouter } from "next/navigation";
 
 export const LayerContext = createContext(null);
 const AuthContext = ({ children }) => {
+  const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const auth = getAuth(app);
@@ -27,34 +29,21 @@ const AuthContext = ({ children }) => {
 
   const logOut = () => {
     setLoading(true);
+    Cookies.remove("ast");
+    router.refresh();
     return signOut(auth);
   };
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
-        if (user) {
-          fetch("http://localhost:5000/api/v2/jwt", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: user.email,
-            }),
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              const expiration = new Date();
-              expiration.setTime(expiration.getTime() + 6 * 60 * 60 * 1000); // 6 hours from now
-              Cookies.set("ast", data.token, {
-                expires: expiration,
-                secure: true,
-                sameSite: "strict",
-              });
-              console.log(data);
-            });
-        }
+        setTimeout(() => {
+          const getCookies = Cookies.get("ast");
+          if (!getCookies) {
+            router.refresh();
+            logOut();
+          }
+        }, 500);
       } else {
         setUser(null);
       }

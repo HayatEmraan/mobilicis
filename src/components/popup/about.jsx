@@ -8,7 +8,7 @@ const AboutPopUp = ({ label, data, isUpdate, setUpdate }) => {
   const handleUpdate = (e) => {
     e.preventDefault();
     const about = e.target.about.value;
-    fetch("http://localhost:5000/api/v2/user/about", {
+    fetch("https://oruphones-lilac.vercel.app/api/v2/user/about", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

@@ -10,7 +10,7 @@ const PhoneComponent = ({ label, isUpdate, setUpdate }) => {
   const handleUpdate = (e) => {
     e.preventDefault();
     const number = e.target.number.value;
-    fetch("http://localhost:5000/api/v2/user/profile", {
+    fetch("https://oruphones-lilac.vercel.app/api/v2/user/profile", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

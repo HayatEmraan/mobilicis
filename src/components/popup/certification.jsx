@@ -9,7 +9,7 @@ const CertificateComponent = ({ label, data, isUpdate, setUpdate }) => {
     e.preventDefault();
     const institute = e.target.institute_name.value;
     const course = e.target.course_name.value;
-    fetch("http://localhost:5000/api/v2/user/certification", {
+    fetch("https://oruphones-lilac.vercel.app/api/v2/user/certification", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

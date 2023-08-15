@@ -34,7 +34,7 @@ const ExperienceComponent = ({ label, data, isUpdate, setUpdate }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        fetch("http://localhost:5000/api/v2/user/experience", {
+        fetch("https://oruphones-lilac.vercel.app/api/v2/user/experience", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
