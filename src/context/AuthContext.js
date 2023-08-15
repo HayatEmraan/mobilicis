@@ -38,13 +38,13 @@ const AuthContext = ({ children }) => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
-        setTimeout(() => {
-          const getCookies = Cookies.get("ast");
-          if (!getCookies) {
-            router.refresh();
-            logOut();
-          }
-        }, 500);
+        // setTimeout(() => {
+        //   const getCookies = Cookies.get("ast");
+        //   if (!getCookies) {
+        //     router.refresh();
+        //     logOut();
+        //   }
+        // }, 500);
       } else {
         setUser(null);
       }
