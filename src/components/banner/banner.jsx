@@ -1,7 +1,7 @@
 "use client";
 import { Outfit } from "next/font/google";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FileInputExample from "../upload/upload";
 import PopUpComponent from "../popup/popup";
 import AboutPopUp from "../popup/about";
@@ -11,17 +11,19 @@ import EducationComponent from "../popup/education";
 import PhoneComponent from "../popup/phone";
 import EmailComponent from "../popup/email";
 import Cookies from "js-cookie";
+import { LayerContext } from "@/context/AuthContext";
 
 const outfit = Outfit({
   subsets: ["latin"],
   weight: "500",
 });
-const BannerComponent = ({ user }) => {
+const BannerComponent = () => {
   const [label, setLabel] = useState("");
   const [data, setData] = useState(null);
   const [userInfo, setUserInfo] = useState({});
   const [isUpdate, setUpdate] = useState(false);
-  console.log(user);
+  const { user } = useContext(LayerContext);
+  console.log("banner", user);
   useEffect(() => {
     fetch("https://oruphones-lilac.vercel.app/api/v2/user/info", {
       method: "GET",

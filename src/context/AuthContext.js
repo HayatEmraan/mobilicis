@@ -35,9 +35,9 @@ const AuthContext = ({ children }) => {
     return signOut(auth);
   };
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user);
+    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
         setTimeout(() => {
           const getCookies = Cookies.get("ast");
           if (!getCookies) {

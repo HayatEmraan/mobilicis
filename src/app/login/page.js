@@ -36,7 +36,7 @@ const LoginPage = () => {
               });
           }
           toast.success("Logged in successfully!");
-          return router.push("/profile");
+          return router.push("/");
         })
         .catch((err) => {
           console.log(err.message);

@@ -11,7 +11,7 @@ const outfit = Outfit({
 
 const nav = [
   {
-    path: "/profile",
+    path: "/",
     name: "My Profile",
   },
   {

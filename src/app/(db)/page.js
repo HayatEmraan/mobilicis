@@ -1,11 +1,11 @@
-import React from "react";
+import BannerComponent from "@/components/banner/banner";
 
-const DbRootPage = () => {
+const ProfilePage = () => {
   return (
     <>
-      
+      <BannerComponent/>
     </>
   );
 };
 
-export default DbRootPage;
+export default ProfilePage;
