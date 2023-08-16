@@ -40,7 +40,7 @@ const PopUpComponent = ({ label, data, setLabel }) => {
       <form method="dialog" className="modal-box" onSubmit={handleSubmit}>
         <p className="font-semibold text-xl">[{label}]</p>
         <hr />
-        <div>
+        <div className="mt-4">
           <input
             type="text"
             placeholder="Name"

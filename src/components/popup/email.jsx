@@ -23,7 +23,6 @@ const EmailComponent = ({ label, data, setLabel, isUpdate, setUpdate }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         updateEmail(user, email)
           .then(() => {
             setUpdate(!isUpdate);
@@ -42,7 +41,7 @@ const EmailComponent = ({ label, data, setLabel, isUpdate, setUpdate }) => {
       <form method="dialog" className="modal-box" onSubmit={handleSubmit}>
         <p className="font-semibold text-xl">[{label}]</p>
         <hr />
-        <div>
+        <div className="mt-4">
           <input
             type="text"
             placeholder="Email"

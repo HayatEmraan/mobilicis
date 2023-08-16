@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "react-hot-toast";
 
-const CertificateComponent = ({ label, data, isUpdate, setUpdate }) => {
+const CertificateComponent = ({ label, isUpdate, setUpdate, achieve }) => {
   const router = useRouter();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,7 +34,7 @@ const CertificateComponent = ({ label, data, isUpdate, setUpdate }) => {
       <form method="dialog" className="modal-box" onSubmit={handleSubmit}>
         <p className="font-semibold text-xl">[{label}]</p>
         <hr />
-        <div>
+        <div className="mt-3">
           <label htmlFor="course_name">Course Name</label>
           <input
             type="text"
@@ -42,7 +42,7 @@ const CertificateComponent = ({ label, data, isUpdate, setUpdate }) => {
             className="w-full border py-2 rounded-md px-2 focus:border-none focus:outline focus:outline-orange-400"
             required=""
             id="course_name"
-            defaultValue={data}
+            defaultValue={achieve?.course}
           />
         </div>
         <div className="mt-3">
@@ -53,7 +53,7 @@ const CertificateComponent = ({ label, data, isUpdate, setUpdate }) => {
             className="w-full border py-2 rounded-md px-2 focus:border-none focus:outline focus:outline-orange-400"
             required=""
             id="institute_name"
-            defaultValue={data}
+            defaultValue={achieve?.institute}
           />
         </div>
         <div className="flex justify-end mt-4">

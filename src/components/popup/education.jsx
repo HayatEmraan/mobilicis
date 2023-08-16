@@ -4,11 +4,8 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
-const EducationComponent = ({ label, data, isUpdate, setUpdate }) => {
-  const [type, setType] = useState("Remote");
-  const [start, setStart] = useState([]);
-  const [startJob, setStartJob] = useState([2000]);
-  const [endJob, setEndJob] = useState([2023]);
+const EducationComponent = ({ label, educationData, isUpdate, setUpdate }) => {
+  const [startEdu, setStart] = useState([]);
   const router = useRouter();
   useEffect(() => {
     for (let i = 2000; i < 2023; i++) {
@@ -16,7 +13,6 @@ const EducationComponent = ({ label, data, isUpdate, setUpdate }) => {
     }
   }, []);
 
-  const [degree, setDegree] = useState("");
   const Degree = () => [
     {
       name: "Master",
@@ -86,15 +82,14 @@ const EducationComponent = ({ label, data, isUpdate, setUpdate }) => {
             name="institute_name"
             required=""
             id="institute_name"
-            defaultValue={data}
+            defaultValue={educationData?.institute}
           />
         </div>
         <div className="mt-3">
           <label htmlFor="company_name">Degree / Certification</label>
           <select
             className="w-full border ml-0 mt-0 py-2 rounded-md px-2 focus:border-none focus:outline focus:outline-orange-400"
-            value={degree}
-            onChange={(e) => setDegree(e.target.value)}
+            value={educationData?.Degree}
             name="type"
           >
             {Degree().map((item, index) => {
@@ -112,13 +107,16 @@ const EducationComponent = ({ label, data, isUpdate, setUpdate }) => {
             <label htmlFor="company_name">Start Date : </label>
             <select
               className="border ml-0 mt-0 py-2 rounded-md px-2 focus:border-none focus:outline focus:outline-orange-400"
-              value={startJob}
-              onChange={(e) => setStartJob(e.target.value)}
+              defaultValue={educationData?.start}
               name="start"
             >
-              {start.map((item, index) => {
+              {startEdu?.map((item, index) => {
                 return (
-                  <option key={index} value={item}>
+                  <option
+                    selected={educationData?.start == item ? true : false}
+                    key={index}
+                    value={item}
+                  >
                     {item}
                   </option>
                 );
@@ -129,15 +127,17 @@ const EducationComponent = ({ label, data, isUpdate, setUpdate }) => {
             <label htmlFor="end_date">End Date : </label>
             <select
               className="border ml-0 mt-0 py-2 rounded-md px-2 focus:border-none focus:outline focus:outline-orange-400"
-              value={endJob}
-              defaultValue={2023}
+              defaultValue={educationData?.end}
               id="end_date"
-              onChange={(e) => setEndJob(e.target.value)}
               name="end"
             >
-              {start.map((item, index) => {
+              {startEdu?.map((item, index) => {
                 return (
-                  <option key={index} value={item}>
+                  <option
+                    selected={educationData?.end == item ? true : false}
+                    key={index}
+                    value={item}
+                  >
                     {item}
                   </option>
                 );
@@ -152,7 +152,7 @@ const EducationComponent = ({ label, data, isUpdate, setUpdate }) => {
             className="w-full border py-2 rounded-md px-2 focus:border-none focus:outline focus:outline-orange-400"
             required=""
             name="about"
-            defaultValue={data}
+            defaultValue={educationData?.about}
           />
         </div>
         <div className="flex justify-end mt-4">

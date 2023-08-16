@@ -1,23 +1,20 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CodeSelect from "./codeselect";
 
-const PhoneLibs = () => {
-  const [countryCode, setCountryCode] = useState("+91");
-  const handleCountryCodeChange = (event) => {
-    setCountryCode(event.target.value);
-  };
+const PhoneLibs = ({ phone }) => {
+  const [countryCode, setCountryCode] = useState(phone?.code);
+
   return (
-    <div className="rounded-lg mt-1">
+    <div className="rounded-lg mt-4">
       <div className="flex justify-between items-center gap-2" id="">
         <select
           className="border rounded w-full p-2"
           value={countryCode}
           disabled
-          onChange={handleCountryCodeChange}
           name="country_code"
         >
-          <CodeSelect />
+          <CodeSelect countryCode={countryCode} />
         </select>
         <input
           type="tel"
@@ -27,6 +24,7 @@ const PhoneLibs = () => {
           min={8}
           max={12}
           id="all1"
+          defaultValue={phone?.number}
           name="number"
           required=""
         />

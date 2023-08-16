@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import SelectComponent from "./select";
 
 const CountriesComponent = () => {
-  const [countryCode, setCountryCode] = useState("+1");
+  const [countryCode, setCountryCode] = useState("+93");
 
   const handleCountryCodeChange = (event) => {
     setCountryCode(event.target.value);

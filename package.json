@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@lottiefiles/react-lottie-player": "^3.5.3",
     "autoprefixer": "10.4.14",
     "firebase": "^10.1.0",
     "js-cookie": "^3.0.5",
@@ -19,6 +20,7 @@
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.10.1",
+    "react-select": "^5.7.4",
     "sharp": "^0.32.4",
     "tailwindcss": "3.3.3"
   },

@@ -12,6 +12,8 @@ import PhoneComponent from "../popup/phone";
 import EmailComponent from "../popup/email";
 import Cookies from "js-cookie";
 import { LayerContext } from "@/context/AuthContext";
+import SkillsPopUp from "../popup/skillspopup";
+import { toast } from "react-hot-toast";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -23,7 +25,17 @@ const BannerComponent = () => {
   const [userInfo, setUserInfo] = useState({});
   const [isUpdate, setUpdate] = useState(false);
   const { user } = useContext(LayerContext);
-  console.log("banner", user);
+  const [phone, setPhone] = useState({});
+  const [aboutData, setAbout] = useState("");
+  const [achieve, setAchieve] = useState({});
+  const [experienceData, setExperience] = useState({});
+  const [educationData, setEducation] = useState({});
+  const [reFetch, setFetch] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setFetch(!reFetch);
+    }, 1000);
+  }, []);
   useEffect(() => {
     fetch("https://oruphones-lilac.vercel.app/api/v2/user/info", {
       method: "GET",
@@ -37,9 +49,10 @@ const BannerComponent = () => {
         setUserInfo(data.user);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.message);
       });
-  }, [isUpdate]);
+  }, [isUpdate, reFetch]);
+
   return (
     <div className={`${outfit.className} relative`}>
       {/* banner background */}
@@ -111,6 +124,10 @@ const BannerComponent = () => {
                   <button
                     onClick={() => {
                       setLabel("Phone Number");
+                      setPhone({
+                        code: userInfo?.code,
+                        number: userInfo?.number,
+                      });
                       window.my_modal_1.showModal();
                     }}
                   >
@@ -127,6 +144,7 @@ const BannerComponent = () => {
                 <button
                   onClick={() => {
                     setLabel("About");
+                    setAbout(userInfo?.about);
                     window.my_modal_3.showModal();
                   }}
                   className="bg-[#F0EFFA] rounded-xl px-4 "
@@ -141,12 +159,21 @@ const BannerComponent = () => {
                 <h1 className="text-[#222222e6] text-[18px] font-medium">
                   Skills
                 </h1>
-                <h1 className="bg-[#F0EFFA] rounded-xl px-4">Edit</h1>
+                <button
+                  onClick={() => {
+                    setLabel("Skills");
+                    setAbout(userInfo?.about);
+                    window.my_modal_11.showModal();
+                  }}
+                  className="bg-[#F0EFFA] rounded-xl px-4"
+                >
+                  {userInfo?.skills ? "Edit" : "Add"}
+                </button>
               </div>
               <div className="grid grid-cols-3">
-                <p>Next JS</p>
-                <p>Typescript</p>
-                <p>Mongodb</p>
+                {userInfo?.skills?.map((value, index) => {
+                  return <p key={index}>{value.label}</p>;
+                })}
               </div>
             </div>
           </div>
@@ -189,6 +216,7 @@ const BannerComponent = () => {
                 <h1
                   onClick={() => {
                     setLabel("Certifications");
+                    setAchieve(userInfo?.certification);
                     window.my_modal_5.showModal();
                   }}
                   className="bg-[#F0EFFA] rounded-xl px-4 cursor-pointer"
@@ -229,6 +257,7 @@ const BannerComponent = () => {
                 <h1
                   onClick={() => {
                     setLabel("Experience");
+                    setExperience(userInfo?.experience);
                     window.my_modal_6.showModal();
                   }}
                   className="bg-[#F0EFFA] rounded-xl px-4 cursor-pointer"
@@ -242,8 +271,8 @@ const BannerComponent = () => {
                     <div>
                       <div className="flex gap-4">
                         <h1>
-                          {userInfo?.experience?.start -
-                            userInfo?.experience?.end}{" "}
+                          {userInfo?.experience?.end -
+                            userInfo?.experience?.start}{" "}
                           Years ({userInfo?.experience?.start}-
                           {userInfo?.experience?.end})
                         </h1>
@@ -277,6 +306,7 @@ const BannerComponent = () => {
                 <h1
                   onClick={() => {
                     setLabel("Education");
+                    setEducation(userInfo?.education);
                     window.my_modal_7.showModal();
                   }}
                   className="bg-[#F0EFFA] rounded-xl px-4 cursor-pointer"
@@ -314,14 +344,15 @@ const BannerComponent = () => {
           data={data}
           isUpdate={isUpdate}
           setUpdate={setUpdate}
+          phone={phone}
         />
       }
       {
         <AboutPopUp
           label={label}
-          data={data}
           isUpdate={isUpdate}
           setUpdate={setUpdate}
+          aboutData={aboutData}
         />
       }
       {
@@ -330,6 +361,7 @@ const BannerComponent = () => {
           data={data}
           isUpdate={isUpdate}
           setUpdate={setUpdate}
+          achieve={achieve}
         />
       }
       {
@@ -338,6 +370,7 @@ const BannerComponent = () => {
           data={data}
           isUpdate={isUpdate}
           setUpdate={setUpdate}
+          experienceData={experienceData}
         />
       }
       {
@@ -346,10 +379,19 @@ const BannerComponent = () => {
           data={data}
           isUpdate={isUpdate}
           setUpdate={setUpdate}
+          educationData={educationData}
         />
       }
       {
         <EmailComponent
+          label={label}
+          data={data}
+          isUpdate={isUpdate}
+          setUpdate={setUpdate}
+        />
+      }
+      {
+        <SkillsPopUp
           label={label}
           data={data}
           isUpdate={isUpdate}

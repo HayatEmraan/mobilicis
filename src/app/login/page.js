@@ -39,9 +39,12 @@ const LoginPage = () => {
           return router.push("/");
         })
         .catch((err) => {
-          console.log(err.message);
           if (err.message === "Firebase: Error (auth/user-not-found).") {
+            toast.error("User not found!");
+          } else if (err.message === "Firebase: Error (auth/wrong-password).") {
             toast.error("Wrong password / email combination!");
+          } else {
+            toast.error("Something went wrong!");
           }
         });
     }

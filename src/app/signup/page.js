@@ -45,7 +45,6 @@ const SignUpPage = () => {
               })
                 .then((res) => res.json())
                 .then((data) => {
-                  console.log(data);
                   toast.success("Account created successfully!.");
                   logOut();
                   return router.push("/login");
@@ -53,16 +52,12 @@ const SignUpPage = () => {
                 .catch(() => {
                   toast.error("Something went wrong!");
                 });
-              // toast.success("Account created successfully!.");
-              // logOut();
-              // return router.push("/login");
             })
             .catch(() => {
               toast.error("Something went wrong!");
             });
         })
         .catch((err) => {
-          console.log(err.message);
           if (err.message === "Firebase: Error (auth/email-already-in-use).") {
             toast.error("Email already in use! Try another one.");
           }

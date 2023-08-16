@@ -4,11 +4,13 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
-const ExperienceComponent = ({ label, data, isUpdate, setUpdate }) => {
-  const [type, setType] = useState("Remote");
-  const [start, setStart] = useState([]);
-  const [startJob, setStartJob] = useState([2000]);
-  const [endJob, setEndJob] = useState([2023]);
+const ExperienceComponent = ({
+  label,
+  isUpdate,
+  setUpdate,
+  experienceData,
+}) => {
+  const [startYear, setStart] = useState([]);
   const router = useRouter();
   useEffect(() => {
     for (let i = 2000; i < 2023; i++) {
@@ -16,6 +18,28 @@ const ExperienceComponent = ({ label, data, isUpdate, setUpdate }) => {
     }
   }, []);
 
+  const typeJob = [
+    {
+      name: "Full Time",
+      value: "Full Time",
+    },
+    {
+      name: "Internship",
+      value: "Internship",
+    },
+    {
+      name: "Remote",
+      value: "Remote",
+    },
+    {
+      name: "Onsite",
+      value: "Onsite",
+    },
+    {
+      name: "Hybrid",
+      value: "Hybrid",
+    },
+  ];
   const handleSubmit = (e) => {
     e.preventDefault();
     const middle = e.target;
@@ -74,7 +98,7 @@ const ExperienceComponent = ({ label, data, isUpdate, setUpdate }) => {
               className="w-full border py-2 rounded-md px-2 focus:border-none focus:outline focus:outline-orange-400"
               required=""
               id="company_name"
-              defaultValue={data}
+              defaultValue={experienceData?.company}
             />
           </div>
 
@@ -94,15 +118,21 @@ const ExperienceComponent = ({ label, data, isUpdate, setUpdate }) => {
             <label htmlFor="type">Job Type</label>
             <select
               className="w-full border ml-0 mt-0 py-2 rounded-md px-2 focus:border-none focus:outline focus:outline-orange-400"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
+              defaultValue={experienceData?.type}
               name="type"
               id="type"
             >
-              <option value={"Remote"}>Remote</option>
-              <option value={"Onsite"}>Onsite</option>
-              <option value={"Hybrid"}>Hybrid</option>
-              <option value={"Full-time"}>Full time</option>
+              {typeJob?.map((item, index) => {
+                return (
+                  <option
+                    selected={experienceData?.type == item.value ? true : false}
+                    key={index}
+                    value={item.value}
+                  >
+                    {item.name}
+                  </option>
+                );
+              })}
             </select>
           </div>
           <div className="mt-3">
@@ -114,7 +144,7 @@ const ExperienceComponent = ({ label, data, isUpdate, setUpdate }) => {
               required=""
               name="position_name"
               id="position_name"
-              defaultValue={data}
+              defaultValue={experienceData?.position}
             />
           </div>
         </div>
@@ -123,13 +153,16 @@ const ExperienceComponent = ({ label, data, isUpdate, setUpdate }) => {
             <label htmlFor="company_name">Start Date : </label>
             <select
               className="border ml-0 mt-0 py-2 rounded-md px-2 focus:border-none focus:outline focus:outline-orange-400"
-              value={startJob}
-              onChange={(e) => setStartJob(e.target.value)}
+              defaultValue={experienceData?.start}
               name="start"
             >
-              {start.map((item, index) => {
+              {startYear?.map((item, index) => {
                 return (
-                  <option key={index} value={item}>
+                  <option
+                    key={index}
+                    selected={experienceData?.start == item ? true : false}
+                    value={item}
+                  >
                     {item}
                   </option>
                 );
@@ -140,15 +173,17 @@ const ExperienceComponent = ({ label, data, isUpdate, setUpdate }) => {
             <label htmlFor="end_date">End Date : </label>
             <select
               className="border ml-0 mt-0 py-2 rounded-md px-2 focus:border-none focus:outline focus:outline-orange-400"
-              value={endJob}
-              defaultValue={2023}
+              defaultValue={experienceData?.end}
               id="end_date"
-              onChange={(e) => setEndJob(e.target.value)}
               name="end"
             >
-              {start.map((item, index) => {
+              {startYear?.map((item, index) => {
                 return (
-                  <option key={index} value={item}>
+                  <option
+                    key={index}
+                    selected={experienceData?.end == item ? true : false}
+                    value={item}
+                  >
                     {item}
                   </option>
                 );

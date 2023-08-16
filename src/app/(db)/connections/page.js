@@ -1,6 +1,8 @@
 "use client";
 import FlowingComponent from "@/components/flowing/flowing";
+import ImagePage from "@/components/image/animation";
 import InterestComponent from "@/components/interest/interest";
+import PrivateRoute from "@/libs/private";
 import Cookies from "js-cookie";
 import React, { useEffect } from "react";
 import { toast } from "react-hot-toast";
@@ -19,9 +21,9 @@ const ConnectionsPage = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setInterest(data.users);
+        setInterest(data.users || []);
       })
-      .catch(() => {
+      .catch((err) => {
         toast.error("Something went wrong!");
       });
   }, [update]);
@@ -38,7 +40,7 @@ const ConnectionsPage = () => {
       .then((data) => {
         setConnected(data.users);
       })
-      .catch(() => {
+      .catch((err) => {
         toast.error("Something went wrong!");
       });
   }, [update]);
@@ -57,7 +59,6 @@ const ConnectionsPage = () => {
         setUpdate(!update);
       })
       .catch((err) => {
-        console.log(err);
         toast.error("Something went wrong!");
       });
   };
@@ -75,32 +76,40 @@ const ConnectionsPage = () => {
         setUpdate(!update);
       })
       .catch((err) => {
-        console.log(err);
         toast.error("Something went wrong!");
       });
   };
 
   return (
     <>
-      <div className="bg-[#1E2875] py-6 mt-4 rounded-lg mx-1 lg:mx-0">
-        <h1 className="text-white text-2xl font-bold mx-4 mb-2">
-          My Connections
-        </h1>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 my-3 ml-4 transition-all duration-300 ease-in-out">
-        <FlowingComponent connected={connected} handleDelete={handleDelete} />
-      </div>
-      <div className="mt-12">
-        <h1 className="text-2xl font-bold mx-4 mb-2">
-          People you can also connect
-        </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 my-3 ml-4 transition-all duration-300 ease-in-out">
-          <InterestComponent
-            interest={interest}
-            handleConnect={handleConnect}
-          />
+      <PrivateRoute>
+        <div className="bg-[#1E2875] py-6 mt-4 rounded-lg mx-1 lg:mx-0">
+          <h1 className="text-white text-2xl font-bold mx-4 mb-2">
+            My Connections
+          </h1>
         </div>
-      </div>
+        {connected.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 my-3 ml-4 transition-all duration-300 ease-in-out">
+            <FlowingComponent
+              connected={connected}
+              handleDelete={handleDelete}
+            />
+          </div>
+        ) : (
+          <ImagePage />
+        )}
+        <div className="mt-12">
+          <h1 className="text-2xl font-bold mx-4 mb-2">
+            People you can also connect
+          </h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 my-3 ml-4 transition-all duration-300 ease-in-out">
+            <InterestComponent
+              interest={interest}
+              handleConnect={handleConnect}
+            />
+          </div>
+        </div>
+      </PrivateRoute>
     </>
   );
 };

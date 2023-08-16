@@ -7,7 +7,6 @@ import Cookies from "js-cookie";
 const FileInputExample = ({ user }) => {
   const router = useRouter();
   const handleFileChange = (event) => {
-    console.log(event.target.files[0]);
     const form = new FormData();
     form.append("file", event.target.files[0]);
     form.append("upload_preset", "vflnndvq");
@@ -44,7 +43,7 @@ const FileInputExample = ({ user }) => {
             toast.error("Something went wrong!");
           });
       })
-      .catch((err) => toast.error(err.message));
+      .catch((err) => toast.error("Something went wrong!"));
   };
 
   return (

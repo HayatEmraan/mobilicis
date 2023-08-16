@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Cookies from "js-cookie";
 import { app } from "@/fb/fb.config";
 import React, { createContext, useEffect, useState } from "react";
@@ -38,16 +38,8 @@ const AuthContext = ({ children }) => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
-        console.log(currentUser, "authcontext");
-        // setTimeout(() => {
-        //   const getCookies = Cookies.get("ast");
-        //   if (!getCookies) {
-        //     router.refresh();
-        //     logOut();
-        //   }
-        // }, 500);
       } else {
-        // setUser(null);
+        setUser(null);
       }
       setLoading(false);
     });

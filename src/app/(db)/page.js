@@ -1,9 +1,12 @@
 import BannerComponent from "@/components/banner/banner";
+import PrivateRoute from "@/libs/private";
 
 const ProfilePage = () => {
   return (
     <>
-      <BannerComponent/>
+      <PrivateRoute>
+        <BannerComponent />
+      </PrivateRoute>
     </>
   );
 };
