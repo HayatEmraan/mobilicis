@@ -12,3 +12,9 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
+
+export async function generateMetadata({ params }) {
+  return {
+    title: "Mobilicis | Profile",
+  };
+}
